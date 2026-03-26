@@ -1,21 +1,38 @@
-# Railway Configuration
-# Este arquivo define o comportamento do deploy no Railway
+# Railway Configuration - Full Stack Deployment
+version: 2
 
-build:
-  builder: STATIC
-  
-deploy:
-  startCommand: "python3 -m http.server $PORT"
-  healthcheckPath: "/"
-  healthcheckTimeout: 100
-  
-# Variáveis de ambiente necessárias (configure no painel do Railway):
-# - API_KEY: Chave da API do painel
-# - GOOGLE_CLIENT_ID: Client ID do OAuth Google
-# - GTM_ID: Google Tag Manager ID
-# - FB_PIXEL: Facebook Pixel ID
-# - ADMIN_USER: Usuário admin padrão
-# - ADMIN_PASS: Senha admin padrão
+# Backend API Service
+services:
+  - name: api
+    source: 
+      root: /
+    build:
+      builder: NIXPACKS
+      buildCommand: npm install
+      startCommand: npm start
+    healthcheck:
+      path: /api/status
+      port: 3000
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
-# NUNCA coloque valores reais aqui!
-# Use o painel do Railway: Settings > Variables
+  # Frontend Static Site
+  - name: web
+    source:
+      root: /
+    build:
+      builder: STATIC
+      startCommand: python3 -m http.server $PORT
+    healthcheck:
+      path: /
+      port: 8000
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+# Variables de ambiente (configure no painel Railway)
+# - NODE_ENV=production
+# - PORT=3000
+# - ADMIN_USER=admin
+# - ADMIN_PASS=admin123
