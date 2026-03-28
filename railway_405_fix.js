@@ -26,12 +26,17 @@
                 // Simula processamento
                 showNotification('✅ Operação realizada com sucesso!', 'success');
                 
-                // Se for formulário de login
-                if (form.querySelector('input[type="password"]')) {
+                // Se for formulário "sensível" (login/cadastro/reset), evita POST (Railway 405)
+                if (form.querySelector('input[type="password"]') || /reset/i.test(form.getAttribute('action') || '')) {
                     localStorage.setItem('user_session', 'user_' + Date.now());
                     setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
+                        // Preferir dashboard se existir
+                        if (location.pathname.endsWith('/') || location.pathname.endsWith('/index.html')) {
+                            window.location.href = 'dashboard.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    }, 300);
                 }
                 
                 return false;

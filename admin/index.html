@@ -106,7 +106,7 @@
     <script>
         // Verifica se já está logado
         if (localStorage.getItem('admin_session')) {
-            window.location.href = 'editor/index.html';
+            window.location.href = 'dashboard.html';
         }
 
         // Login normal
@@ -124,7 +124,7 @@
             localStorage.setItem('admin_user', username);
             
             alert('✅ Login realizado com sucesso!');
-            window.location.href = 'editor/index.html';
+            window.location.href = 'dashboard.html';
         }
 
         // Bypass direto
@@ -134,7 +134,7 @@
             localStorage.setItem('is_admin', 'true');
             
             console.log('[Admin] Bypass ativado');
-            window.location.href = 'editor/index.html';
+            window.location.href = 'dashboard.html';
         }
     </script>
 <script src="api_client.js"></script>

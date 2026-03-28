@@ -200,7 +200,9 @@
             localStorage.getItem('admin_user') || 'Admin';
         
         function logout() {
-            localStorage.clear();
+            localStorage.removeItem('admin_session');
+            localStorage.removeItem('admin_user');
+            localStorage.removeItem('is_admin');
             window.location.href = 'index.html';
         }
     </script>
